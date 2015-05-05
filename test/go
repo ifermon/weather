@@ -1,0 +1,4 @@
+sudo pigpiod
+nohup sudo motion &
+nohup sudo python AM2302_test.py &
+nohup sudo python light_sensor.py &
