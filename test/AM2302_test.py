@@ -4,8 +4,8 @@
 # Public Domain
 
 import time
-
 import pigpio
+import logging
 
 _3W=(1<<9)
 _3WN=(15<<10)
@@ -18,7 +18,10 @@ pi = pigpio.pi() # Connect to local Pi.
 dht22 = pi.spi_open(0, SPEED, _3W|_3WN)
 
 # Intervals of about 2 seconds or less will eventually hang the DHT22.
-INTERVAL=3
+INTERVAL=60
+
+logging.basicConfig(filename="temp.out", format="%(message)s",
+                level=logging.DEBUG)
 
 r = 0
 
@@ -46,7 +49,7 @@ def getBit(in_bit, in_byte, buf):
             numbit = 1
    return (0, 0, 0)
 
-while last_reading > next_reading:
+while True:
 
    r += 1
 
@@ -81,7 +84,11 @@ while last_reading > next_reading:
       if sign:
          temperature = -temperature
       temperature = (temperature * (9.0/5.0)) + 32.0
-      print(humidity,temperature)
+      t = time.time()
+      localtime = time.asctime( time.localtime(t))
+      log_msg = "{0} | {1} | {2} | {3}".format(humidity, temperature, 
+                localtime, t)
+      logging.debug(log_msg)
 
    next_reading += INTERVAL
 
