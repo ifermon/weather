@@ -1,0 +1,9 @@
+This file is a flag. It exists with a certain name.
+
+If it is named motion_on - the motion script will start
+If it is named motion_off - the motion script will not start
+Actually, if it is not named motion_on - the motion script will not start.
+
+We do this in case we need to do some debugging. We can just change the name of the file and reboot, then start manually.
+
+Motion is started in crontab using the @reboot command. It sleeps before starting, giving you a minute to change the name of this file.
