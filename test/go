@@ -4,17 +4,17 @@
 echo -n "Do you want to remove nohup.out [y/N]?"
 read answer
 if [ "$answer" == "y" ]; then
-	rm nohup.out
+	rm -f nohup.out
 fi
-echo -n "Do you want to remove level.out [n/N]?"
+echo -n "Do you want to remove level.out [y/N]?"
 read answer
 if [ "$answer" == "y" ]; then
-	rm level.out
+	rm -f level.out
 fi
-echo -n "Do you want to remove temp.out [n/N]?"
+echo -n "Do you want to remove temp.out [y/N]?"
 read answer
 if [ "$answer" == "y" ]; then
-	rm temp.out
+	rm -f temp.out
 fi
 
 # Need this for reading the temp sensor

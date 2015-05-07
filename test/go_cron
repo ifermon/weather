@@ -1,22 +1,26 @@
 #!/bin/bash
 
-# Give me time to stop the autostart if I'm having issues
-# Just log in and remove the cron.flag file and it won't start
-sleep 120
-
 if [ ! -f /home/weather/weather/test/cron.flag ]; then
 	echo "Flag removed - exit script without starting services"
 	exit
 fi
 
+# Give me time to stop the autostart if I'm having issues
+# Just log in and remove the cron.flag file and it won't start
+sleep 120
+
 # Need this for reading the temp sensor
 sudo pigpiod
 
 # Start motion
-sudo motion &
+#sudo motion &
 
+# Don't run them together, it will conflict and hang
 # This is the temp sensor tester
-sudo python AM2302_test.py &
+#sudo python AM2302_test.py &
 
 # This is the light sensor tester
-sudo python light_sensor.py &
+#sudo python light_sensor.py &
+
+# Runs both temp, humid and light
+sudo python temp_light.py &
