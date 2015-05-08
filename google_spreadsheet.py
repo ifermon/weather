@@ -42,8 +42,9 @@ DHT_PIN  = 15
 #DHT_PIN  = 'P8_11'
 
 # Google Docs account email, password, and spreadsheet name.
-GDOCS_EMAIL            = 'ivan.fermon@gmail.com'
-GDOCS_PASSWORD         = 'hpfasqfjkwpsxxsv'
+import g_creds
+GDOCS_EMAIL            = g_creds.GOOGLE_USER
+GDOCS_PASSWORD         = g_creds.GOOGLE_PWD
 GDOCS_SPREADSHEET_NAME = 'Weather Station'
 
 # How long to wait (in seconds) between measurements.

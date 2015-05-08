@@ -96,7 +96,7 @@ while True:
       log_msg = "{0} | {1} | {2} | {3} | {4}".format(light_level, 
           humidity, temperature, localtime, t)
       logging.debug(log_msg)
-      print log_msg
+      #print log_msg
 
    next_reading += INTERVAL
 
