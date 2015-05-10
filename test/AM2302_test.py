@@ -18,7 +18,7 @@ pi = pigpio.pi() # Connect to local Pi.
 dht22 = pi.spi_open(0, SPEED, _3W|_3WN)
 
 # Intervals of about 2 seconds or less will eventually hang the DHT22.
-INTERVAL=60
+INTERVAL=6
 
 logging.basicConfig(filename="temp.out", format="%(message)s",
                 level=logging.DEBUG)
@@ -81,6 +81,7 @@ while True:
       sign = val[2]&128
       val[2] &= 0x127
       temperature = ((val[2]*256)+val[3]) / 10.0
+      print("temp {0}".format(temperature))
       if sign:
          temperature = -temperature
       temperature = (temperature * (9.0/5.0)) + 32.0
@@ -88,6 +89,7 @@ while True:
       localtime = time.asctime( time.localtime(t))
       log_msg = "{0} | {1} | {2} | {3}".format(humidity, temperature, 
                 localtime, t)
+      print ("{0}".format(log_msg))
       logging.debug(log_msg)
 
    next_reading += INTERVAL

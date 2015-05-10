@@ -7,13 +7,13 @@
 import g_spread
 import time
 import sensor
+import power
 
 # Interval in minutes between writes
 INTERVAL = 10
 
 ws = g_spread.Sheet()
-ws.log_readings((123123,"Human time here", 12.3, 45.2, 69.0, 1234))
-sensors = Sensors()
+sensors = sensor.Sensors()
 
 while True:
 
@@ -29,24 +29,33 @@ while True:
     avg_temp = 0
     avg_humid = 0
     avg_light = 0
+    log_time = tnow + sleep_time
+    print("tnow {0} sleep {1} log {2}".format(tnow, sleep_time, log_time))
 
     # Get INTERVAL readings of light, humid and temp, about 1 per minute
-    for min in range(10):
+    for min in range(INTERVAL):
         #Get temp & humid
         (temp, humidity) = sensors.get_temp_humid()
         #Get light
         light = sensors.get_light()
+        print("light {0}".format(light))
 
         avg_temp += temp
         avg_light += light
-        avg_humid += humid
+        avg_humid += humidity
 
         # sleep for the next reading, should be about 60 secs
         time.sleep(sleep_time)
 
+    print("avg temp before {0}".format(avg_temp))
     avg_temp = avg_temp / INTERVAL
+    print("avg temp after {0}".format(avg_temp))
     avg_light = avg_light / INTERVAL
     avg_humid = avg_humid / INTERVAL
+    power_generated = power.get_power_generated(INTERVAL)
+
+    print("avg temp \t avg light \t avg humid \t power")
+    print("{0} \t {1} \t {2} \t {3}".format(avg_temp, avg_light, avg_humid, power_generated))
 
 
 

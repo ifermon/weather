@@ -28,14 +28,14 @@ class Sensors(object):
         self.pi = pigpio.pi() 
 
         # Connect to temp / humid sensor
-        am2302 = pi.spi_open(0, SPEED, _3W|_3WN)
+        self.am2302 = self.pi.spi_open(0, SPEED, _3W|_3WN)
         return
 
 
     '''
         I copied this, don't really understand it
     '''
-    def get_bit(in_bit, in_byte, buf):
+    def get_bit(self, in_bit, in_byte, buf):
         global BYTES
         v = not (buf[in_byte] & (1<<(7-in_bit))) # Force logical result
         numbit = 1
@@ -62,22 +62,22 @@ class Sensors(object):
     '''
     def get_temp_humid(self):
         # I don't understand this stuff, but it works
-        (c, buf) = pi.spi_read(am2302, BYTES+1)
+        (c, buf) = self.pi.spi_read(self.am2302, BYTES+1)
         numbit = 1
         in_bit = 0
         in_byte = 0
-        (numbit, in_bit, in_byte) = get_bit(in_bit, in_byte, buf)
-        (numbit, in_bit, in_byte) = get_bit(in_bit, in_byte, buf)
+        (numbit, in_bit, in_byte) = self.get_bit(in_bit, in_byte, buf)
+        (numbit, in_bit, in_byte) = self.get_bit(in_bit, in_byte, buf)
         bit = 0
         byte = 0
         val = [0]*5
         while numbit:
-            (numbit, in_bit, in_byte) = get_bit(in_bit, in_byte, buf)
+            (numbit, in_bit, in_byte) = self.get_bit(in_bit, in_byte, buf)
             if numbit:
                 if numbit > 9:
                     val[byte] |= (1<<(7-bit))
                 bit += 1
-                if big > 7:
+                if bit > 7:
                     bit = 0
                     byte += 1
         checksum = 0
@@ -88,7 +88,7 @@ class Sensors(object):
 
             sign = val[2] & 128
             val[2] &= 0x127
-            temp = ((val[2]*256) * val[3]) / 10.0
+            temp = ((val[2]*256) + val[3]) / 10.0
             if sign:
                 temp = -temp
             #convert to F
@@ -99,7 +99,7 @@ class Sensors(object):
         Get the light level
     '''
     def get_light(self):
-        data = bus.read_i2c_block_data(LIGHT_SENSOR_ADDR, 0x11)
+        data = self.bus.read_i2c_block_data(LIGHT_SENSOR_ADDR, 0x11)
         light_level = int((data[1] + (256 * data[0])) / 1.2)
         return light_level
 
