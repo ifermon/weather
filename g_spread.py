@@ -14,7 +14,7 @@ class Sheet(object):
         self._worksheet = None
         self.retry = False
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = JSON_FILE
-        return
+        return 
 
     """
         Using oauth2 see https://gspread.readthedocs.org/en/latest/oauth2.html
