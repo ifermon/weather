@@ -54,7 +54,7 @@ while True:
     avg_temp = avg_temp / INTERVAL
     avg_light = avg_light / INTERVAL
     avg_humid = avg_humid / INTERVAL
-    power_generated = power.get_power_generated(INTERVAL)
+    power_generated = "{:.3f}".format(power.get_power_generated(INTERVAL))
 
     #print("time \t avg temp \t avg light \t avg humid \t power")
     #print("{4} \t {0} \t {1} \t {2} \t {3}".format(avg_temp, avg_light, avg_humid, power_generated, end_time))

@@ -59,7 +59,7 @@ def get_power_generated(minutes):
     '''
     avg_power = avg_power / num_readings
     power_generated = avg_power * (num_readings / 60)
-    print("avg power {0}".format(avg_power))
-    print("power gen {0}".format(power_generated))
+    #print("avg power {0}".format(avg_power))
+    #print("power gen {0}".format(power_generated))
     return power_generated
 
