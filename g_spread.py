@@ -3,21 +3,32 @@ import gspread
 from oauth2client.client import GoogleCredentials
 import os
 
-# Google Docs account email, password, and spreadsheet name.
+# Google Docs spreadsheet name and worksheet name
+# The json file contains my credentials
 WORKBOOK = 'Weather Station'
 WORKSHEET = 'Raw Data'
 JSON_FILE = "/home/weather/weather/config/gdoc.creds.json"
 
+'''
+    Go here for instuctions on how to generate the .json credentials file:
+    https://developers.google.com/identity/protocols/OAuth2
+    Very simple class. You only need to call log_readings - it handles login 
+    if needed. It will log any tuple to the workbook / worksheet listed
+    above
+'''
 class Sheet(object):
 
     def __init__(self):
         self._worksheet = None
         self.retry = False
+        # Use the below because the standard method either doesn't work
+        # or there is major user error on my part. Regardless, this works
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = JSON_FILE
         return 
 
     """
         Using oauth2 see https://gspread.readthedocs.org/en/latest/oauth2.html
+        User does not need to call this. It is called by log_readings if needed
     """
     def login_open_sheet(self):
         """Connect to Google Docs spreadsheet and return the first worksheet."""
