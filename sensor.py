@@ -1,5 +1,5 @@
 '''
-    This files gets the readings from the light and temp / humid sensors
+    This files gets the readings from the light and temp / humid sensor
 '''
 
 import time
@@ -14,7 +14,7 @@ SPEED = 200000
 BYTES = 130
 INTERVAL = 60
 
-# This is for the light sensor
+# This is for the light sensor, it's address in the i2c bus
 LIGHT_SENSOR_ADDR = 0x23
 
 
