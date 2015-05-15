@@ -8,6 +8,7 @@ import g_spread
 import time
 import sensor
 import power
+import sys
 
 # Interval in minutes between writes, need the .0 for math but needs to be int
 INTERVAL = 10.0
@@ -40,9 +41,18 @@ while True:
     #print("sleep time in secs {0}".format(sleep_time))
     for min in range(int(INTERVAL)):
         #Get temp & humid
-        (temp, humidity) = sensors.get_temp_humid()
+        try:
+            (temp, humidity) = sensors.get_temp_humid()
+        except:
+            print("Unexpected error getting temp/humid: \n{0}".format(
+                    sys.exc_info()[0]))
+
         #Get light
-        light = sensors.get_light()
+        try:
+            light = sensors.get_light()
+        except:
+            print("Unexpected error getting light: \n{0}".format(
+                    sys.exc_info()[0]))
 
         avg_temp += temp
         avg_light += light
@@ -50,11 +60,16 @@ while True:
 
         # sleep for the next reading, should be about 60 secs
         time.sleep(sleep_time)
+        ###END FOR###
 
     avg_temp = avg_temp / INTERVAL
     avg_light = avg_light / INTERVAL
     avg_humid = avg_humid / INTERVAL
-    power_generated = "{:.3f}".format(power.get_power_generated(INTERVAL))
+    try:
+        power_generated = "{:.3f}".format(power.get_power_generated(INTERVAL))
+    except:
+        print("Unexpected error getting power: \n{0}".format(
+                sys.exc_info()[0]))
 
     #print("time \t avg temp \t avg light \t avg humid \t power")
     #print("{4} \t {0} \t {1} \t {2} \t {3}".format(avg_temp, avg_light, avg_humid, power_generated, end_time))
