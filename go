@@ -13,6 +13,16 @@ date
 echo "Launching pigpiod"
 sudo pigpiod
 
+# Launching motion
+date
+echo "Launching motion"
+sudo motion
+
+# Starting up weather
+date
+echo "Sending text regarding reboot"
+wget -q --no-check -t 1 "https://192.168.0.210:5000/send_message?msg=Starting weather" > /dev/null 
+
 # Start up readings
 date
 echo "Starting to get readings"
