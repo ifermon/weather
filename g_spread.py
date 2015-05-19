@@ -2,6 +2,7 @@ import sys
 import gspread
 from oauth2client.client import GoogleCredentials
 import os
+import time
 
 # Google Docs spreadsheet name and worksheet name
 # The json file contains my credentials
@@ -62,7 +63,7 @@ class Sheet(object):
         except:
             # Error appending data, most likely because credentials are stale.
             # Null _worksheet so a login is performed at the top of the loop.
-            print('Append error, logging in again')
+            print('{0}: Append error, logging in again'.format(time.asctime()))
             self._worksheet = None
             if self.retry == False:
                 self.retry = True
