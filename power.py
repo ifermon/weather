@@ -63,3 +63,33 @@ def get_power_generated(minutes):
     #print("power gen {0}".format(power_generated))
     return power_generated
 
+def get_power_generated_t(start_time, end_time):
+    # request takes an argument in seconds since epoch and gives us
+    # minute history after that value
+    r = requests.get("{0}&S={1}".format(URI,start_time))
+
+    # Parse the returning xml
+    # <MINUTE><TIME>seconds</TIME><POWER>power level</POWER></MINUTE>
+    tree = ET.fromstring(r.text)
+
+    # Now get the avg power produced each minute, figure the total power
+    # prouduced over the period, and return the value
+    avg_power = 0.0
+    num_readings = 0
+    for node in tree:
+        for l in node:
+            if l.tag == "POWER":
+                avg_power += float(l.text)
+                num_readings += 1
+        
+    '''
+        Pulling the power rate generated every minute. It's in KWh. So get
+        average kWh generated over minutes and multiply by 
+        minutes / 60 should get you the power generated over that time period
+    '''
+    avg_power = avg_power / num_readings
+    power_generated = avg_power * (num_readings / 60)
+    #print("avg power {0}".format(avg_power))
+    #print("power gen {0}".format(power_generated))
+    return power_generated
+
