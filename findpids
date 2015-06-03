@@ -1,0 +1,1 @@
+ps -ef | grep -e pigpiod -e motion -e go -e python3 | grep -v grep
