@@ -66,7 +66,9 @@ while True:
     avg_light = avg_light / INTERVAL
     avg_humid = avg_humid / INTERVAL
     try:
-        power_generated = "{:.3f}".format(power.get_power_generated(INTERVAL))
+        #power_generated = "{:.3f}".format(power.get_power_generated(INTERVAL))
+        power_generated = "{:.3f}".format(power.get_power_generated_t(
+                start_time, end_time))
     except:
         print("Unexpected error getting power: \n{0}".format(
                 sys.exc_info()[0]))
