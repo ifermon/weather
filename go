@@ -19,10 +19,14 @@ echo "Launching motion"
 sudo motion &
 #sudo motion -n &
 
-# Starting up weather
-date
-echo "Sending text regarding reboot"
-wget --delete --no-check -t 1 "https://192.168.0.210:5000/send_message?msg=Starting weather" 
+# Starting up weather if it's not a crontab reboot
+if [ -f /home/weather/weather/cronboot ]; then
+    date
+    echo "Sending text regarding reboot"
+    wget --delete --no-check -t 1 \
+            "https://192.168.0.210:5000/send_message?msg=Starting weather" 
+    rm /home/weather/weather/cronboot
+fi
 
 # Start up readings
 # Loop through in case we get an error
