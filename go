@@ -21,11 +21,13 @@ sudo motion &
 
 # Starting up weather if it's not a crontab reboot
 if [ -f /home/weather/weather/cronboot ]; then
+    echo "Not sending text, removing cronboot"
+    rm /home/weather/weather/cronboot
+elif
     date
     echo "Sending text regarding reboot"
     wget --delete --no-check -t 1 \
             "https://192.168.0.210:5000/send_message?msg=Starting weather" 
-    rm /home/weather/weather/cronboot
 fi
 
 # Start up readings
