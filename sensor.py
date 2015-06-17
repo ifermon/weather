@@ -71,6 +71,8 @@ class Sensors(object):
         bit = 0
         byte = 0
         val = [0]*5
+        temp = 0
+        humidity = 0
         while numbit:
             (numbit, in_bit, in_byte) = self.get_bit(in_bit, in_byte, buf)
             if numbit:
@@ -93,6 +95,7 @@ class Sensors(object):
                 temp = -temp
             #convert to F
             temp = (temp * (9.0 / 5.0)) + 32.0
+        #print("temp {0} humid {1}".format(temp, humidity))
         return (temp, humidity)
 
     '''
@@ -105,4 +108,9 @@ class Sensors(object):
 
 
 
+# Testing here
+if __name__ == "__main__":
     
+    s = Sensors()
+    
+    print(s.get_light())
