@@ -42,15 +42,17 @@ while True:
     for min in range(int(INTERVAL)):
         #Get temp & humid
         try:
+            print("Getting temp / humid")
             (temp, humidity) = sensors.get_temp_humid()
-        except:
-            print("Unexpected error getting temp/humid: \n{0}".format(
-                    sys.exc_info()[0]))
+        except Exception as e:
+            print("Unexpected error getting temp/humid: \n{0}\n{1}\n{2}".format(
+                    sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2]))
 
         #Get light
         try:
+            print("Getting light")
             light = sensors.get_light()
-        except:
+        except Exception as e:
             print("Unexpected error getting light: \n{0}".format(
                     sys.exc_info()[0]))
 
