@@ -22,7 +22,7 @@ sudo motion &
 # Launching watchdog
 #date
 echo "Launching watchdog"
-sudo watchdog
+sudo watchdog -v
 
 # Starting up weather if it's not a crontab reboot
 if [ -f /home/weather/weather/cronboot ]; then
