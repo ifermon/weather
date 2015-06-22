@@ -3,6 +3,14 @@
 # Check to see if process exists
 #go_pi=$(ps -ef | grep g[o])
 
+# Check to see if we stop , this is in case we just need to stop restarting
+# You can just log in and touch stop, remove stop to keep going
+date
+if [ -f /home/weather/stop ]; then
+    echo "Stopping go... file stop exists"
+    exit 0
+fi
+
 # Put in a little delay before we start
 date
 echo "Starting up ... going to sleep for 30 seconds"
