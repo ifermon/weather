@@ -1,1 +1,1 @@
-ps -ef | grep -e pigpiod -e motion -e go -e python3 | grep -v grep
+ps -ef | grep -e watchdog -e pigpiod -e motion -e go -e python3 | grep -v grep
