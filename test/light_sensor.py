@@ -10,12 +10,12 @@ logging.basicConfig(filename="level.out", format="%(message)s",
 				level=logging.DEBUG)
 while True:
 	data = bus.read_i2c_block_data(_addr, 0x11)
-	print data
+	print( data)
 	light_level = int((data[1] + (256 * data[0])) / 1.2)
 	t = time.time()
 	localtime = time.asctime( time.localtime(t))
 	log_msg = "{2} | {1} | {0}".format(light_level, localtime, t)
-	print log_msg
+	print( log_msg)
 	#logging.debug(log_msg)
 	time.sleep(5)
 
