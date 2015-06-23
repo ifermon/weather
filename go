@@ -46,11 +46,18 @@ fi
 # Loop through in case we get an error
 date
 echo "Starting to get readings"
+fail_count=0
 while :
 do
     sudo python3 /home/weather/weather/weather_readings.py
     wget --quiet --delete --no-check -t 1 "https://192.168.0.210:5000/send_message?msg=Error in weather - restarting weather"
     date
-    echo "Error in weather - restarting weather"
+    $((fail_count++))
+    if [ ${fail_count} -eq 5 ]; then
+        echo "Error in weather. Failed 5 times ... need to reboot"
+        sudo reboot
+    else
+        echo "Error in weather. Restarting weather. fail_count = ${fail_count}"
+    fi
     sleep 5
 done
