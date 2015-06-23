@@ -21,8 +21,11 @@ RET=0
 . /lib/lsb/init-functions
 
 kill_pid () {
-    if [ -f $PID_FILE ]; then
-        kill $(cat ${PID_FILE})
+    pid=$(pidof pigpiod)
+    if [ -z ${pid} ]; then
+        kill ${pid}
+    fi
+    if [ -f ${PID_FILE} ]; then
         rm ${PID_FILE}
     fi
 }
