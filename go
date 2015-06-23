@@ -16,19 +16,19 @@ date
 echo "Starting up ... going to sleep for 30 seconds"
 sleep 30
 
-# Start the pi gpio deamon - should check to see if it's arleady running
-date
-echo "Launching pigpiod"
-sudo pigpiod
-
 # Launching motion
 #date
 echo "Launching motion"
 sudo motion &
 #sudo motion -n &
 
+# Start the pi gpio deamon
+date
+echo "Launching pigpiod"
+sudo service pigpiod start
+
 # Launching watchdog
-#date
+date
 echo "Launching watchdog"
 sudo watchdog -v
 
@@ -58,6 +58,9 @@ do
         sudo reboot
     else
         echo "Error in weather. Restarting weather. fail_count = ${fail_count}"
+        echo "Restart pigpiod"
+        # We restart pigpiod because otherwise you leave open resources
+        sudo service pigpiod restart
     fi
     sleep 5
 done
