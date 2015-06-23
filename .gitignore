@@ -61,3 +61,4 @@ log
 cronboot
 syslog
 util/repair-bin.stdout
+logs
