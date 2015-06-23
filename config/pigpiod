@@ -15,21 +15,15 @@ PATH='/sbin:/bin:/usr/bin'
 NAME=pigpiod
 PIGPIOD=/usr/local/bin/pigpiod
 PID_FILE=/var/run/pigpio.pid
-FIND_PID="ps -eo pid,args | grep pigpiod | grep $(more $PID_FILE) | awk '{print \$1}'"
 
 RET=0
 
 . /lib/lsb/init-functions
 
 kill_pid () {
-    PID=$(eval $FIND_PID)
-    if [ ! -z $PID ]; then
-        kill $PID
-        PID=$(eval $FIND_PID)
-        if [ ! -z $PID ]; then
-            sleep 3
-            kill -9 $PID
-        fi
+    if [ -f $PID_FILE ]; then
+        kill $(cat ${PID_FILE})
+        rm ${PID_FILE}
     fi
 }
 
