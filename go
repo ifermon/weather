@@ -30,6 +30,7 @@ sudo service pigpiod start
 # Launching watchdog
 date
 echo "Launching watchdog"
+sudo modprobe bcm2708_wdog
 sudo watchdog -v
 
 # Starting up weather if it's not a crontab reboot
