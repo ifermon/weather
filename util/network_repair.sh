@@ -18,5 +18,5 @@ date
 sudo ifconfig wlan0 up
 ret=$?
 
-echo "Echo'ing with success"
+echo "Completed wlan0 up with code $ret"
 exit $ret
