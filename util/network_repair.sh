@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "Sleeping for 5 secs..."
 date
+echo "In network_repair.sh, called with $1 and $2"
+echo "Sleeping for 5 secs..."
 sleep 5
 
 echo "Bringing network down"
