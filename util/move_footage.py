@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3
 import pysftp
 import datetime
 import sys
