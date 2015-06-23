@@ -22,7 +22,7 @@ RET=0
 
 kill_pid () {
     pid=$(pidof pigpiod)
-    if [ -z ${pid} ]; then
+    if [ ! -z ${pid} ]; then
         kill ${pid}
     fi
     if [ -f ${PID_FILE} ]; then
