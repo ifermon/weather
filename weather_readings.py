@@ -9,12 +9,21 @@ import time
 import sensor
 import power
 import sys
+import signal
 
 # Interval in minutes between writes, need the .0 for math but needs to be int
 INTERVAL = 10.0
 
 ws = g_spread.Sheet()
 sensors = sensor.Sensors()
+
+# Log if we get a signal
+def signal_handler(signal, frame):
+    print("Got signal <{0}>.".format(signal))
+    sys.exit(0)
+    return
+
+signal.signal(15, signal_handler)
 
 while True:
 
