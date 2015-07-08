@@ -50,7 +50,7 @@ echo "Starting to get readings"
 fail_count=0
 while :
 do
-    sudo python3 /home/weather/weather/weather_readings.py
+    sudo /home/weather/weather/weather_readings.py -d
     wget --quiet --delete --no-check -t 1 "https://192.168.0.210:5000/send_message?msg=Error in weather - restarting weather"
     date
     $((fail_count++))
