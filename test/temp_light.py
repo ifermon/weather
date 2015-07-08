@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/local/bin/python3
 
 # 2014-09-12 spi-DHT22.py
 # Public Domain
@@ -24,7 +24,7 @@ dht22 = pi.spi_open(0, SPEED, _3W|_3WN)
 # Intervals of about 2 seconds or less will eventually hang the DHT22.
 INTERVAL=60
 
-logging.basicConfig(filename="readings.out", format="%(message)s",
+logging.basicConfig(format="%(asctime)s %(message)s",
                 level=logging.DEBUG)
 
 r = 0
@@ -63,7 +63,11 @@ while True:
    in_bit = 0
    in_byte = 0
    (numbit, in_bit, in_byte) = getBit(in_bit, in_byte, buf)
+   logging.debug("numbit {0} in bit {1} in byte {2}".format(
+       numbit, in_bit, in_byte))
    (numbit, in_bit, in_byte) = getBit(in_bit, in_byte, buf)
+   logging.debug("numbit {0} in bit {1} in byte {2}".format(
+       numbit, in_bit, in_byte))
    bit = 0
    byte = 0
    val = [0]*5
