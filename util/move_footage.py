@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
-import pysftp
-import datetime
 import sys
+import datetime
+import pysftp
 from path import path
 
 SOURCE_DIR = '/home/weather/sec_video'
