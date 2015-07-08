@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3
 '''
     This files gets the readings from the light and temp / humid sensor
 '''
@@ -67,7 +68,11 @@ class Sensors(object):
         in_bit = 0
         in_byte = 0
         (numbit, in_bit, in_byte) = self.get_bit(in_bit, in_byte, buf)
+        logging.debug("numbit {0} in bit {1} in byte {2}".format(
+                numbit, in_bit, in_byte))
         (numbit, in_bit, in_byte) = self.get_bit(in_bit, in_byte, buf)
+        logging.debug("numbit {0} in bit {1} in byte {2}".format(
+                numbit, in_bit, in_byte))
         bit = 0
         byte = 0
         val = [0]*5
@@ -95,7 +100,7 @@ class Sensors(object):
                 temp = -temp
             #convert to F
             temp = (temp * (9.0 / 5.0)) + 32.0
-        #print("temp {0} humid {1}".format(temp, humidity))
+        logging.debug("In Sensor.py: temp {0} humid {1}".format(temp, humidity))
         return (temp, humidity)
 
     '''
@@ -112,5 +117,10 @@ class Sensors(object):
 if __name__ == "__main__":
     
     s = Sensors()
+    logging.basicConfig(format="%(asctime)s: %(message)s",
+                level=logging.DEBUG)
     
-    print(s.get_light())
+    for i in range(10):
+        logging.debug(s.get_light())
+        logging.debug(s.get_temp_humid())
+        time.sleep(60)
