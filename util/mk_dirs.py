@@ -137,7 +137,7 @@ def generate_sub_dir_names(f_name):
     return day_dir_name, mon_dir_name # END generate_sub_dir_names
 
 def get_existing_dir_names():
-    """Returns dict of directory names, gotta love path.py"""
+    """Return dict of directory names, gotta love path.py"""
     global base_dir
     dir_dict = {}
     src_dir = path(base_dir)
