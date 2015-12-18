@@ -16,10 +16,11 @@ date
 echo "Starting up ... going to sleep for 30 seconds"
 sleep 30
 
-# Launching motion
-#date
+# Launching motion, first update the video driver to help w exposure issue
+date
+sudo modprobe bcm2835-v4l2 max_video_width=2592 max_video_height=1944
 echo "Launching motion"
-sudo motion &
+sudo /home/weather/weather/motion -c /home/weather/weather/config/motion.conf &
 #sudo motion -n &
 
 # Start the pi gpio deamon
