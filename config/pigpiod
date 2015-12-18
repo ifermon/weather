@@ -35,7 +35,7 @@ case "$1" in
     	kill_pid
 	log_daemon_msg "Starting pigpiod" "pigpiod"
 	echo
-    	$PIGPIOD
+    	$PIGPIOD -a1
     	RET=$?
         ;;
     stop)
