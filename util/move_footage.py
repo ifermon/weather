@@ -42,20 +42,6 @@ with pysftp.Connection('192.168.0.224', username='nas',
     with pysftp.cd(SOURCE_DIR):
         for i in files_to_move:
             sftp.chdir(DEST_DIR)
-            # First get the date part of the file name
-            m = p.search(i)
-            if m: # we found a matching pattern
-                # Now create dir if doesn't exist and cd to that dir
-                # group(xx) corresponds to the chars matching the ()'s
-                # in the compile statment from above
-                dir_name = "{0}-{1}-{2}".format(m.group(2), m.group(2), 
-                        m.group(1))
-                if not sftp.isdir(dir_name):
-                    print("{0} Directory {1} does not exist, creating".format(
-                            now(), dir_name))
-                    sftp.mkdir(dir_name)
-                sftp.chdir(dir_name)
-
             if not sftp.exists(i):
                 print("{1} Moving {0}".format(i, now()))
                 sftp.put(i, preserve_mtime=True)
