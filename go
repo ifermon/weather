@@ -6,9 +6,11 @@
 # Check to see if we stop , this is in case we just need to stop restarting
 # You can just log in and touch stop, remove stop to keep going
 date
-if [ -f /home/weather/stop ]; then
-    echo "Stopping go... file stop exists"
-    exit 0
+if [ "$1" != "skipcheck" ]; then
+    if [ -f /home/weather/stop ]; then
+        echo "Stopping go... file stop exists"
+        exit 0
+    fi
 fi
 
 # Put in a little delay before we start
@@ -41,7 +43,7 @@ if [ -f /home/weather/weather/cronboot ]; then
 else
     date
     echo "Sending text regarding reboot"
-    wget --quiet --delete --no-check -t 1 "https://192.168.0.210:5000/send_message?msg=Starting weather" 
+    wget --quiet --delete --no-check -t 1 "https://192.168.0.40:5000/send_message?msg=Starting weather" 
 fi
 
 # Start up readings
@@ -52,7 +54,7 @@ fail_count=0
 while :
 do
     sudo /home/weather/weather/weather_readings.py -d
-    wget --quiet --delete --no-check -t 1 "https://192.168.0.210:5000/send_message?msg=Error in weather - restarting weather"
+    wget --quiet --delete --no-check -t 1 "https://192.168.0.40:5000/send_message?msg=Error in weather - restarting weather"
     date
     $((fail_count++))
     if [ ${fail_count} -eq 5 ]; then
