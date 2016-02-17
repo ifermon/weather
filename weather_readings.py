@@ -13,6 +13,7 @@ import sys
 import signal
 import getopt
 import logging
+import MySQLdb as db
 
 # Interval in minutes between writes, need the .0 for math but needs to be int
 INTERVAL = 10.0
@@ -51,6 +52,13 @@ ws = g_spread.Sheet()
 logging.debug("Setup access to google spreadsheet")
 sensors = sensor.Sensors()
 logging.debug("Setup access to temp/humid and light sensors")
+
+# Set up connection to database
+conn = db.connect(
+        host="localhost",
+        user="weather_program",
+        db='weather')
+cursor = conn.cursor()
 
 while True:
 
@@ -91,6 +99,15 @@ while True:
 
         logging.debug("temp {0} light {1} humid {2}".format(temp, 
             light, humidity))
+
+        # Log to database
+        stmt = """INSERT INTO 
+                    minute_data (humidity, light_level, temperature)
+                VALUES
+                    ({}, {}, {})""".format(humidity, light, temp)
+        cursor.execute(stmt)
+        conn.commit()
+
         avg_temp += temp
         avg_light += light
         avg_humid += humidity
@@ -114,6 +131,19 @@ while True:
     logging.info("time \t avg temp \t avg light \t avg humid \t power")
     logging.info("{4} \t {0} \t {1} \t {2} \t {3}".format(avg_temp, 
         avg_light, avg_humid, power_generated, end_time))
+
+    # Log to database
+    stmt = """INSERT INTO 
+                ten_minute_data (
+                    avg_temperature, avg_humidity, avg_light_level,
+                    power, start_time_epoch, end_time_epoch)
+            VALUES
+                ({}, {}, {}, {}, {}, {})""".format(
+                        avg_temp, avg_humid, avg_light, power_generated,
+                        end_time, start_time)
+    logging.info("Stmt: {}".format(stmt))
+    cursor.execute(stmt)
+    conn.commit()
 
     ws.log_readings((end_time, time.ctime(end_time), avg_temp, 
             avg_light, avg_humid, power_generated))
