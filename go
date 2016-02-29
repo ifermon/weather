@@ -56,7 +56,7 @@ do
     sudo /home/weather/weather/weather_readings.py -d
     wget --quiet --delete --no-check -t 1 "https://192.168.0.40:5000/send_message?msg=Error in weather - restarting weather"
     date
-    $((fail_count++))
+    ((fail_count++))
     if [ ${fail_count} -eq 5 ]; then
         echo "Error in weather. Failed 5 times ... need to reboot"
         sudo reboot
