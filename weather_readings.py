@@ -121,6 +121,7 @@ while True:
     avg_temp = avg_temp / INTERVAL
     avg_light = avg_light / INTERVAL
     avg_humid = avg_humid / INTERVAL
+    power_generated = ""
     try:
         power_generated = "{:.3f}".format(power.get_power_generated_t(
                 start_time, end_time))
