@@ -3,6 +3,9 @@
 # Check to see if process exists
 #go_pi=$(ps -ef | grep g[o])
 
+# IP address for garagePi (and port) for messages
+garagePi="192.168.0.40:5000"
+
 # Check to see if we stop , this is in case we just need to stop restarting
 # You can just log in and touch stop, remove stop to keep going
 date
@@ -43,7 +46,7 @@ if [ -f /home/weather/weather/cronboot ]; then
 else
     date
     echo "Sending text regarding reboot"
-    wget --quiet --delete --no-check -t 1 "https://192.168.0.40:5000/send_message?msg=Starting weather" 
+    wget --quiet --delete --no-check -t 1 "https://${garagePi}/send_message?msg=Starting weatherPi" 
 fi
 
 # Start up readings
@@ -53,12 +56,17 @@ echo "Starting to get readings"
 fail_count=0
 while :
 do
+
     sudo /home/weather/weather/weather_readings.py -d
-    wget --quiet --delete --no-check -t 1 "https://192.168.0.40:5000/send_message?msg=Error in weather - restarting weather"
+    if [ -f /home/weather/weather/cronboot ]; then
+        echo "Not sending text because cronboot exists, in fail loop, not deleting cronboot"
+    else
+        msg="Error in weather app.\nFail count = ${fail_count}\nRestarting app at $(date)"
+        wget --quiet --delete --no-check -t 1 "https://${garagePi}/send_message?msg=${msg}"
     date
     ((fail_count++))
     if [ ${fail_count} -eq 5 ]; then
-        echo "Error in weather. Failed 5 times ... need to reboot"
+        echo "Error in weather. Failed 5 times ... rebooting weatherPi"
         sudo reboot
     else
         echo "Error in weather. Restarting weather. fail_count = ${fail_count}"
