@@ -121,7 +121,7 @@ while True:
     avg_temp = avg_temp / INTERVAL
     avg_light = avg_light / INTERVAL
     avg_humid = avg_humid / INTERVAL
-    power_generated = ""
+    power_generated = "0"
     try:
         power_generated = "{:.3f}".format(power.get_power_generated_t(
                 start_time, end_time))
@@ -139,7 +139,7 @@ while True:
                     avg_temperature, avg_humidity, avg_light_level,
                     power, start_time_epoch, end_time_epoch)
             VALUES
-                ({}, {}, {}, {}, {}, {})""".format(
+                ({:.2f}, {:.2f}, {:.2f}, {}, {}, {})""".format(
                         avg_temp, avg_humid, avg_light, power_generated,
                         end_time, start_time)
     logging.info("Stmt: {}".format(stmt))
