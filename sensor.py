@@ -100,6 +100,7 @@ class Sensors(object):
                 temp = -temp
             #convert to F
             temp = (temp * (9.0 / 5.0)) + 32.0
+            temp = float("{0:.2f}".format(temp))
         logging.debug("In Sensor.py: temp {0} humid {1}".format(temp, humidity))
         return (temp, humidity)
 
