@@ -4,7 +4,7 @@
 #go_pi=$(ps -ef | grep g[o])
 
 # IP address for garagePi (and port) for messages
-garagePi="192.168.0.40:5000"
+garagePi="192.168.0.215:5000"
 
 # Check to see if we stop , this is in case we just need to stop restarting
 # You can just log in and touch stop, remove stop to keep going
@@ -63,6 +63,7 @@ do
     else
         msg="Error in weather app.\nFail count = ${fail_count}\nRestarting app at $(date)"
         wget --quiet --delete --no-check -t 1 "https://${garagePi}/send_message?msg=${msg}"
+    fi
     date
     ((fail_count++))
     if [ ${fail_count} -eq 5 ]; then
