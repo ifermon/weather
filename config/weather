@@ -1,0 +1,9 @@
+/home/weather/weather/logs/*.log {
+	copytruncate
+	size 1000k
+	dateext
+	missingok
+	rotate 4
+	notifempty
+	create 640 weather pi
+}
