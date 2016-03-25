@@ -129,8 +129,8 @@ while True:
         logging.error("Unexpected error getting power: \n{0}".format(
                 sys.exc_info()[0]))
 
-    logging.info("time \t avg temp \t avg light \t avg humid \t power")
-    logging.info("{4} \t {0} \t {1} \t {2} \t {3}".format(avg_temp, 
+    logging.debug("time \t avg temp \t avg light \t avg humid \t power")
+    logging.debug("{4} \t {0} \t {1} \t {2} \t {3}".format(avg_temp, 
         avg_light, avg_humid, power_generated, end_time))
 
     # Log to database
@@ -142,7 +142,7 @@ while True:
                 ({:.2f}, {:.2f}, {:.2f}, {}, {}, {})""".format(
                         avg_temp, avg_humid, avg_light, power_generated,
                         end_time, start_time)
-    logging.info("Stmt: {}".format(stmt))
+    logging.debug("Stmt: {}".format(stmt))
     cursor.execute(stmt)
     conn.commit()
 
