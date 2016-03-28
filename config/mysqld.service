@@ -1,0 +1,12 @@
+[Unit]
+Description=MySQL Server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --datadir=/var/lib/mysql --socket=/var/run/mysqld/mysqld.sock
+User=mysql
+Group=mysql
+WorkingDirectory=/usr
+
+[Install]
+WantedBy=multi-user.target
