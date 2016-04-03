@@ -22,7 +22,7 @@ sleep 30
 # Launching motion, first update the video driver to help w exposure issue
 sudo modprobe bcm2835-v4l2 max_video_width=2592 max_video_height=1944
 echo "$(date): Launching motion"
-sudo strace -ff -t -o /home/weather/weather/logs/motion_trace.log /home/weather/weather/motion -c /home/weather/weather/config/motion.conf &
+sudo /home/weather/weather/motion -c /home/weather/weather/config/motion.conf &
 #sudo motion -n &
 
 # Start the pi gpio deamon
@@ -51,15 +51,18 @@ while :
 do
 
     sudo  /home/weather/weather/weather_readings.py -l
+    ((fail_count++))
+    /home/weather/weather/util/event_times.py add_event weather_fail_counter 
     if [ -f /home/weather/weather/cronboot ]; then
         echo "Not sending text because cronboot exists, in fail loop, not deleting cronboot"
     else
         msg="Error in weather app.\nFail count = ${fail_count}\nRestarting app at $(date)"
         wget --quiet --delete --no-check -t 1 "https://${garagePi}/send_message?msg=${msg}"
     fi
-    ((fail_count++))
     if [ ${fail_count} -eq 5 ]; then
         echo "$(date): Error in weather. Failed 5 times ... rebooting weatherPi"
+        echo "$(date): What is running?"
+        /home/weather/weather/findpids
         sudo reboot
     else
         echo "$(date): Error in weather. Restarting weather. fail_count = ${fail_count}"

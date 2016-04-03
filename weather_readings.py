@@ -54,11 +54,22 @@ sensors = sensor.Sensors()
 logging.debug("Setup access to temp/humid and light sensors")
 
 # Set up connection to database
-conn = db.connect(
-        host="localhost",
-        user="weather_program",
-        db='weather')
-cursor = conn.cursor()
+conn = None
+cursor = None
+for msql_try_cnt in range(0,3):
+    try:
+        conn = db.connect(
+                host="localhost",
+                user="weather_program",
+                db='weather')
+        cursor = conn.cursor()
+    except:
+        if msql_try_cnt == 2:
+            logging.error("Three consecutive msql connection failures. Exit")
+            sys.exit(1)
+        else:
+            logging.error("Mysql connection failed, sleep for 30 seconds and retry")
+            time.sleep(30)
 
 while True:
 
