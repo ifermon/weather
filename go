@@ -63,6 +63,7 @@ do
         echo "$(date): Error in weather. Failed 5 times ... rebooting weatherPi"
         echo "$(date): What is running?"
         /home/weather/weather/findpids
+        sleep 60
         sudo reboot
     else
         echo "$(date): Error in weather. Restarting weather. fail_count = ${fail_count}"
