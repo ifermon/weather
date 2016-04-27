@@ -5,17 +5,19 @@
 
 # IP address for garagePi (and port) for messages
 garagePi="192.168.0.215:5000"
+HOME_DIR="/home/weather"
 
 # Check to see if we stop , this is in case we just need to stop restarting
 # You can just log in and touch stop, remove stop to keep going
 if [ "$1" != "skipcheck" ]; then
-    if [ -f /home/weather/stop ]; then
+    if [ -f ${HOME_DIR}/stop ]; then
         echo "$(date): Stopping go... file stop exists"
         exit 0
     fi
 fi
 
-# Put in a little delay before we start
+# Put in a little delay before we start, gives us time to shut things down if
+# we are getting repeated reboots
 echo "$(date): Starting up ... going to sleep for 30 seconds"
 sleep 30
 
