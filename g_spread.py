@@ -9,6 +9,9 @@ import time
 WORKBOOK = 'Weather Station'
 WORKSHEET = 'Raw Data'
 JSON_FILE = "/home/weather/weather/config/gdoc.creds.json"
+NUM_RETRIES = 5
+#Number of seconds to pause before trying to log in again if failed
+RETRY_TIME = 30
 
 '''
     Go here for instuctions on how to generate the .json credentials file:
@@ -22,6 +25,7 @@ class Sheet(object):
     def __init__(self):
         self._worksheet = None
         self.retry = False
+        self.login_attempts = 0
         # Use the below because the standard method either doesn't work
         # or there is major user error on my part. Regardless, this works
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = JSON_FILE
@@ -41,10 +45,15 @@ class Sheet(object):
             gs = gspread.authorize(credentials)
             self._worksheet = gs.open(WORKBOOK)
             self._worksheet = self._worksheet.worksheet(WORKSHEET)
+            self.login_attempts = 0
         except Exception as e:
-            print('Unable to login and get spreadsheet')
-            print(e)
-            sys.exit(1)
+            self.login_attempts += 1
+            if self.login_attempts > NUM_RETRIES:
+                print('Unable to login and get spreadsheet')
+                print(e)
+                sys.exit(1)
+            time.sleep(RETRY_TIME)
+            self.login_open_sheet()
         return 
 
     """

@@ -102,6 +102,11 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-alias ll='ls -lF'
-alias ls='ls -F'
-alias la='ls -Fa'
+alias ll='ls -lF --color=auto'
+alias ls='ls -F --color=auto'
+alias la='ls -Fa --color=auto'
+alias temp='sudo /opt/vc/bin/vcgencmd measure_temp'
+
+alias log='sudo journalctl -f --unit=weather'
+alias logp='sudo journalctl -f --unit=pigpiod'
+alias reload='touch ~/.nosleep ; sudo systemctl restart weather.service ; rm ~/.nosleep'

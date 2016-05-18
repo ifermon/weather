@@ -23,3 +23,10 @@ fi
 
 EDITOR=vi
 set -o vi
+
+echo "Special commands:"
+echo "  touch stop - disables weather.service from running"
+echo "    You must remove stop file in order for it to automatically start again "
+echo "  sudo systemctl disable weather.service will also prevent weather.service from starting"
+echo "  log - print out logs from weather.service"
+echo "  reload - reloads weather.service (test out new code)"

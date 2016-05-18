@@ -1,0 +1,18 @@
+[Unit]
+Description=Weather station to log weather stats
+# For instructions on setting this up in a new system see below comments
+# sudo cp garage.service /etc/systemd/system/garage.service
+# sudo systemctl daemon-reload
+# sudo systemctl enable garage.service
+# sudo systemctl start garage.service
+# To see logs: sudo journalctl --unit=garage
+#
+Requires= pigpiod.service watchdog.service
+After= pigpiod.service watchdog.service
+
+[Service]
+Type=simple
+ExecStart=/home/weather/weather/go_weather
+
+[Install]
+WantedBy=multi-user.target
