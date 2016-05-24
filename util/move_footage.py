@@ -3,6 +3,7 @@ import sys
 import datetime
 import pysftp
 import re
+import const # gpg fname.gpg to decrypt
 from path import path
 
 SOURCE_DIR = '/home/weather/sec_video'
@@ -37,8 +38,8 @@ for f in src_dir.files():
     files_to_move.append(f.name)
     files_to_delete.append(f)
 
-with pysftp.Connection('192.168.0.224', username='nas', 
-        password='vader370') as sftp:
+with pysftp.Connection(const.NAS_IP, username=const.NAS_USER, 
+        password=const.NAS_PWD) as sftp:
     with pysftp.cd(SOURCE_DIR):
         for i in files_to_move:
             sftp.chdir(DEST_DIR)
