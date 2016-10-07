@@ -7,11 +7,9 @@ Description=Runs a motion detection camera
 # sudo systemctl start garage.service
 # To see logs: sudo journalctl --unit=garage
 #
-Requires=  watchdog.service
-After=  watchdog.service
 
 [Service]
-Type=forking
+Type=simple
 PIDFile=/var/run/motion/motion.pid
 ExecStart=/home/weather/weather/motion -c /home/weather/weather/config/motion.conf
 ExecStartPre=/sbin/modprobe bcm2835-v4l2 max_video_width=2592 max_video_height=1944
