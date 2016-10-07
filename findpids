@@ -1,1 +1,1 @@
-ps -ef | grep -e watchdog -e mysql -e pigpiod -e motion -e go -e python3 | grep -v grep
+ps -ef | grep -e weather -e watchdog -e mysql -e pigpiod -e motion -e go -e python3 | grep -v grep
