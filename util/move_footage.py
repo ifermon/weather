@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 import sys
 import datetime
+import time
 import pysftp
 import re
 import const # gpg fname.gpg to decrypt
@@ -12,7 +13,7 @@ DEST_DIR = '/mnt/usbstorage/security'
 today = datetime.date.today()
 
 def now():
-    return datetime.datetime.now()
+    return time.asctime()
 
 
 print("{1} Moving footage not from {0}".format(today, now()))
@@ -34,10 +35,11 @@ files_to_move = {}
 src_dir = path(SOURCE_DIR)
 for f in src_dir.files():
     if today_str in f.name or 'lastsnap' in f.name:
-        print("{1} Not moving {0}".format(f.name, now()))
+        print("{} | Not moving {}".format(now(), f.name))
         continue
     #files_to_move.append(f.name)
     files_to_move[f.name] = f
+    print("{} | Adding {} to list".format(now(), f.name))
     #files_to_delete.append(f)
 
 with pysftp.Connection(const.NAS_IP, username=const.NAS_USER, 
