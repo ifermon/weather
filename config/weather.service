@@ -7,8 +7,9 @@ Description=Weather station to log weather stats
 # sudo systemctl start garage.service
 # To see logs: sudo journalctl --unit=garage
 #
-Requires= pigpiod.service watchdog.service
-After= pigpiod.service watchdog.service
+Requires= pigpiod.service 
+After= pigpiod.service 
+BindsTo=pigpiod.service
 
 [Service]
 Type=simple
