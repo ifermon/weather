@@ -63,3 +63,4 @@ syslog
 util/repair-bin.stdout
 logs
 *.Apple*
+db
