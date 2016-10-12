@@ -1,3 +1,4 @@
+# Need to link this file to /etc/mysql/my.cnf
 #
 # The MySQL database server configuration file.
 #

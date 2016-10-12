@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 """
     This file contains the main logic for setting up and gathering readings
 

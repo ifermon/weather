@@ -7,8 +7,6 @@ Description=Service for accessing pins on Pi
 # sudo systemctl start garage.service
 # To see logs: sudo journalctl --unit=garage
 #
-Requires=  watchdog.service
-After=  watchdog.service
 
 [Service]
 Type=forking
