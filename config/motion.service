@@ -10,9 +10,9 @@ Description=Runs a motion detection camera
 
 [Service]
 Type=simple
+ExecStartPre=/sbin/modprobe bcm2835-v4l2 max_video_width=2592 max_video_height=1944
 PIDFile=/var/run/motion/motion.pid
 ExecStart=/home/weather/weather/motion -c /home/weather/weather/config/motion.conf
-ExecStartPre=/sbin/modprobe bcm2835-v4l2 max_video_width=2592 max_video_height=1944
 User=root
 Restart=always
 RestartSec=30
