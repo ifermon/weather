@@ -1,0 +1,5 @@
+[Unit]
+Description=Run the move_footage.service every 2 minutes
+
+[Timer]
+OnCalendar=*:0/2
