@@ -1,5 +1,8 @@
 [Unit]
-Description=Run the move_footage.service every 2 minutes
+Description=Run the move_footage.service every 5 minutes
 
 [Timer]
-OnCalendar=*:0/2
+OnCalendar=*:0/5
+
+[Install]
+WantedBy=timers.target
