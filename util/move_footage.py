@@ -49,12 +49,20 @@ with pysftp.Connection(const.NAS_IP, username=const.NAS_USER,
             sftp.chdir(DEST_DIR)
             if not sftp.exists(i):
                 print("{1} Moving {0}".format(i, now()))
-                sftp.put(i, preserve_mtime=True)
+                try:
+                    sftp.put(i, preserve_mtime=True)
+                except FileNotFoundError:
+                    pass
+
             else:
                 print("{1} Not moving {0} - already exists remotely".format(
                     i, now()))
             print("{1} Removing {0}".format(i, now()))
-            files_to_move[i].remove()
+            try:
+                files_to_move[i].remove()
+            except FileNotFoundError:
+                print("Error removing {}".format(i))
+                pass
 
 #for f in files_to_delete:
     #print("{1} Removing {0}".format(f.name, now()))
