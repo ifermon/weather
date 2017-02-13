@@ -3,10 +3,11 @@ import gspread
 from oauth2client.client import GoogleCredentials
 import os
 import time
+import logging
 
 # Google Docs spreadsheet name and worksheet name
 # The json file contains my credentials
-WORKBOOK = 'Weather Station'
+WORKBOOK = 'Weather Station 2'
 WORKSHEET = 'Raw Data'
 JSON_FILE = "/home/weather/weather/config/gdoc.creds.json"
 NUM_RETRIES = 5
@@ -26,9 +27,12 @@ class Sheet(object):
         self._worksheet = None
         self.retry = False
         self.login_attempts = 0
+        logging.basicConfig(format="%(asctime)s: %(message)s",
+                level=logging.DEBUG)
         # Use the below because the standard method either doesn't work
         # or there is major user error on my part. Regardless, this works
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = JSON_FILE
+        logging.info("Google sheets access configured")
         return 
 
     """
@@ -37,6 +41,7 @@ class Sheet(object):
     """
     def login_open_sheet(self):
         """Connect to Google Docs spreadsheet and return the first worksheet."""
+        logging.info("Trying to log in to google")
         gs = None
         try:
             scope = ["https://spreadsheets.google.com/feeds"]
@@ -49,8 +54,8 @@ class Sheet(object):
         except Exception as e:
             self.login_attempts += 1
             if self.login_attempts > NUM_RETRIES:
-                print('Unable to login and get spreadsheet')
-                print(e)
+                logging.info('Unable to login and get spreadsheet')
+                logging.info(e)
                 sys.exit(1)
             time.sleep(RETRY_TIME)
             self.login_open_sheet()
@@ -65,14 +70,17 @@ class Sheet(object):
         if self._worksheet is None:
             self.login_open_sheet()
 
+        logging.debug("Logging to google sheet")
         # Append the data in the spreadsheet, including a timestamp
         try:
             #_worksheet.append_row((datetime.datetime.now(), temp, humidity))
             self._worksheet.append_row(readings)
-        except:
+            logging.debug("Successfully logged to google sheet")
+        except Exception as e:
             # Error appending data, most likely because credentials are stale.
             # Null _worksheet so a login is performed at the top of the loop.
-            print('{0}: Append error, logging in again'.format(time.asctime()))
+            logging.info('{0}: Append error, logging in again'.format(time.asctime()))
+            logging.info('Exception: {}'.format(str(e)))
             self._worksheet = None
             if self.retry == False:
                 self.retry = True

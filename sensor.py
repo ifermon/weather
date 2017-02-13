@@ -22,6 +22,8 @@ LIGHT_SENSOR_ADDR = 0x23
 class Sensors(object):
 
     def __init__(self):
+        logging.basicConfig(format="%(asctime)s: %(message)s",
+                level=logging.DEBUG)
         # The light sensor is on i2c bus 1, address 23
         self.bus = smbus.SMBus(1)
 
@@ -51,8 +53,10 @@ class Sensors(object):
                 numbit += 1
             else:
                 if not v: # Return high edge
+                    logging.debug("Found high edge")
                     return (numbit, in_bit, in_byte)
                 else: # Skip low edge
+                    logging.debug("Skipping low edige in get_bit")
                     v = nv
                     numbit = 1
         return (0, 0, 0)
@@ -124,4 +128,4 @@ if __name__ == "__main__":
     for i in range(10):
         logging.debug(s.get_light())
         logging.debug(s.get_temp_humid())
-        time.sleep(60)
+        time.sleep(5)
