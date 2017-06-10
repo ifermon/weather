@@ -1,17 +1,17 @@
 [Unit]
 Description=Service for accessing pins on Pi
 # For instructions on setting this up in a new system see below comments
-# sudo cp garage.service /etc/systemd/system/garage.service
+# sudo cp pigpiod.service /etc/systemd/system/pigpiod.service
 # sudo systemctl daemon-reload
-# sudo systemctl enable garage.service
-# sudo systemctl start garage.service
-# To see logs: sudo journalctl --unit=garage
+# sudo systemctl enable pigpiod.service
+# sudo systemctl start pigpiod.service
+# To see logs: sudo journalctl --unit=pigpiod
 #
 
 [Service]
 Type=forking
-PIDFile=/var/run/pigpio.pid
-ExecStartPre=/bin/rm -f /var/run/pigpio.pid
+PIDFile=/var/run/pigpiod.pid
+ExecStartPre=/bin/rm -f /var/run/pigpiod.pid
 ExecStart=/usr/local/bin/pigpiod -a1
 User=root
 
