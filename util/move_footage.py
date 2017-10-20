@@ -8,7 +8,7 @@ import const # gpg fname.gpg to decrypt
 from path import path
 
 SOURCE_DIR = '/home/weather/sec_video'
-DEST_DIR = '/mnt/usbstorage/security'
+DEST_DIR = '/media/security'
 
 today = datetime.date.today()
 

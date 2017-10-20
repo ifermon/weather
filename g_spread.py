@@ -53,9 +53,11 @@ class Sheet(object):
             self.login_attempts = 0
         except Exception as e:
             self.login_attempts += 1
+            logging.info('Unable to login and get spreadsheet')
+            logging.info(str(e))
             if self.login_attempts > NUM_RETRIES:
                 logging.info('Unable to login and get spreadsheet')
-                logging.info(e)
+                logging.info(str(e))
                 sys.exit(1)
             time.sleep(RETRY_TIME)
             self.login_open_sheet()
