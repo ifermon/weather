@@ -8,7 +8,7 @@ import const # gpg fname.gpg to decrypt
 from path import path
 
 SOURCE_DIR = '/home/weather/sec_video'
-DEST_DIR = '/media/security'
+DEST_DIR = '/media/usb/security'
 
 today = datetime.date.today()
 
@@ -44,7 +44,9 @@ for f in src_dir.files():
 
 with pysftp.Connection(const.NAS_IP, username=const.NAS_USER, 
         password=const.NAS_PWD) as sftp:
+    print("Connected")
     with pysftp.cd(SOURCE_DIR):
+        print("Changed directory")
         for i in files_to_move.keys():
             sftp.chdir(DEST_DIR)
             if not sftp.exists(i):
